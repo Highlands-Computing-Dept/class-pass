@@ -1,10 +1,48 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import uuid from "react-native-uuid";
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, TextInput, View } from "react-native";
+import { useState } from "react";
+import TaskList from "./components/TaskList";
 
 export default function App() {
+  const [tasks, setTasks] = useState([]);
+  const [task, setTask] = useState("");
+
+  const handleTaskInput = (value) => {
+    setTask(value);
+  };
+
+  const handleSubmitNewTask = () => {
+    console.log({ task });
+
+    const nextTasks = [...tasks, { id: uuid.v4(), description: task }];
+
+    setTasks(nextTasks);
+  };
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <View style={styles.inputContainer}>
+        <Text style={{ fontSize: 24, paddingTop: 25, paddingBottom: 25 }}>
+          ClassPass
+        </Text>
+        <TextInput
+          style={{
+            fontSize: 24,
+            padding: 10,
+            justifyContent: "flex-start",
+            backgroundColor: "pink",
+            width: "100%",
+          }}
+          placeholder="Type here to add a task!"
+          onChangeText={(value) => handleTaskInput(value)}
+          defaultValue={task}
+          onSubmitEditing={handleSubmitNewTask}
+        />
+      </View>
+      <View>
+        <TaskList tasks={tasks} />
+      </View>
       <StatusBar style="auto" />
     </View>
   );
@@ -13,8 +51,12 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#9a9a9a",
+    paddingTop: 50,
+  },
+  inputContainer: {
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
