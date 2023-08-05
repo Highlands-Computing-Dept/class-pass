@@ -22,15 +22,13 @@ export default function App() {
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
-        <Text style={{ fontSize: 24, paddingTop: 25, paddingBottom: 25 }}>
-          ClassPass
-        </Text>
+        <Text style={{ fontSize: 24, paddingVertical: 50 }}>ClassPass</Text>
         <TextInput
           style={{
             fontSize: 24,
-            padding: 10,
+            padding: 30,
             justifyContent: "flex-start",
-            backgroundColor: "pink",
+            backgroundColor: "#D3D3D3",
             width: "100%",
           }}
           placeholder="Type here to add a task!"
@@ -50,7 +48,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#9a9a9a",
+    backgroundColor: "#ffffff",
     paddingTop: 50,
   },
   inputContainer: {
