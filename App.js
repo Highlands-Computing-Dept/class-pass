@@ -3,6 +3,7 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import { useState } from "react";
 import TaskList from "./components/TaskList";
+import generateUUID from "./utilities/generateUUID";
 
 export default function App() {
   const [tasks, setTasks] = useState([]);
@@ -15,9 +16,10 @@ export default function App() {
   const handleSubmitNewTask = () => {
     console.log({ task });
 
-    const nextTasks = [...tasks, { id: uuid.v4(), description: task }];
+    const nextTasks = [...tasks, { id: generateUUID(), description: task }];
 
     setTasks(nextTasks);
+    setTask("");
   };
 
   return (
