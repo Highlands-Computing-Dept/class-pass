@@ -1,7 +1,6 @@
-import uuid from "react-native-uuid";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, TextInput, View } from "react-native";
 import { useState } from "react";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 import TaskList from "./components/TaskList";
 import generateUUID from "./utilities/generateUUID";
 
@@ -14,8 +13,6 @@ export default function App() {
   };
 
   const handleSubmitNewTask = () => {
-    console.log({ task });
-
     const nextTasks = [...tasks, { id: generateUUID(), description: task }];
 
     setTasks(nextTasks);
