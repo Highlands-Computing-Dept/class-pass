@@ -1,27 +1,24 @@
-import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
+import { useState } from "react";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import EditInput from "./EditInput";
 
-export default function ({ handleDeleteTask, toggleComplete, task }) {
+export default function ({
+  handleDeleteTask,
+  handleEditTask,
+  toggleComplete,
+  task,
+}) {
+  const [isEditing, setIsEditing] = useState(false);
   const { id, description, isComplete } = task;
 
-  const handleEdit = () => {
-    console.log("edit");
+  const toggleIsEditing = () => {
+    setIsEditing(!isEditing);
   };
 
   return (
     <View style={styles.container}>
-      <Text
-        style={{
-          fontSize: 24,
-          textAlign: "left",
-          textDecorationLine: isComplete ? "line-through" : "none",
-          textDecorationStyle: "solid",
-        }}
-      >
-        {description}
-      </Text>
-
       <View style={styles.actionsContainer}>
-        <TouchableOpacity onPress={handleEdit}>
+        <TouchableOpacity onPress={toggleIsEditing}>
           <Image
             source={require("../assets/png/pen-regular.png")}
             style={styles.actionIcon}
@@ -40,6 +37,25 @@ export default function ({ handleDeleteTask, toggleComplete, task }) {
           />
         </TouchableOpacity>
       </View>
+
+      {isEditing ? (
+        <EditInput
+          task={task}
+          handleEditTask={handleEditTask}
+          setIsEditing={setIsEditing}
+        />
+      ) : (
+        <Text
+          style={{
+            fontSize: 24,
+            textAlign: "left",
+            textDecorationLine: isComplete ? "line-through" : "none",
+            textDecorationStyle: "solid",
+          }}
+        >
+          {description}
+        </Text>
+      )}
     </View>
   );
 }

@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import TaskInput from "./components/TaskInput";
 import TaskList from "./components/TaskList";
 import generateUUID from "./utilities/generateUUID";
 
@@ -38,22 +39,24 @@ export default function App() {
     setTasks(nextTasks);
   };
 
+  const handleEditTask = (taskId, editedDescription) => {
+    const nextTasks = [...tasks];
+    const oldTask = nextTasks.find((task) => task.id === taskId);
+    const oldTaskIndex = nextTasks.indexOf(oldTask);
+    const nextTask = { ...oldTask, description: editedDescription };
+    nextTasks[oldTaskIndex] = nextTask;
+
+    setTasks(nextTasks);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
         <Text style={{ fontSize: 24, paddingVertical: 50 }}>ClassPass</Text>
-        <TextInput
-          style={{
-            fontSize: 24,
-            padding: 30,
-            justifyContent: "flex-start",
-            backgroundColor: "#D3D3D3",
-            width: "100%",
-          }}
-          placeholder="Type here to add a task!"
-          onChangeText={(value) => handleTaskInput(value)}
-          defaultValue={task}
-          onSubmitEditing={handleSubmitNewTask}
+        <TaskInput
+          task={task}
+          handleTaskInput={handleTaskInput}
+          handleSubmitNewTask={handleSubmitNewTask}
         />
       </View>
       <View>
@@ -61,6 +64,7 @@ export default function App() {
           tasks={tasks}
           toggleComplete={toggleComplete}
           handleDeleteTask={handleDeleteTask}
+          handleEditTask={handleEditTask}
         />
       </View>
       <StatusBar style="auto" />
