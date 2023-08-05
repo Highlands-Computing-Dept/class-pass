@@ -1,6 +1,8 @@
 import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 
-export default function ({ children }) {
+export default function ({ toggleComplete, task }) {
+  const { id, description, isComplete } = task;
+
   const handleDelete = () => {
     console.log("delete");
   };
@@ -9,13 +11,18 @@ export default function ({ children }) {
     console.log("edit");
   };
 
-  const handleComplete = () => {
-    console.log("complete");
-  };
-
   return (
     <View style={styles.container}>
-      <Text style={styles.labelText}>{children}</Text>
+      <Text
+        style={{
+          fontSize: 24,
+          textAlign: "left",
+          textDecorationLine: isComplete ? "line-through" : "none",
+          textDecorationStyle: "solid",
+        }}
+      >
+        {description}
+      </Text>
 
       <View style={styles.actionsContainer}>
         <TouchableOpacity onPress={handleEdit}>
@@ -24,7 +31,7 @@ export default function ({ children }) {
             style={styles.actionIcon}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={handleComplete}>
+        <TouchableOpacity onPress={() => toggleComplete(id)}>
           <Image
             source={require("../assets/png/check-regular.png")}
             style={styles.actionIcon}
@@ -54,9 +61,5 @@ const styles = StyleSheet.create({
     padding: 30,
     flexDirection: "row",
     justifyContent: "space-between",
-  },
-  labelText: {
-    fontSize: 24,
-    textAlign: "left",
   },
 });

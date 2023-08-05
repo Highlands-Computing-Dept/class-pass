@@ -1,13 +1,11 @@
 import { StyleSheet, Text, View } from "react-native";
 import TaskItem from "./TaskItem";
 
-export default function ({ tasks }) {
-  console.log({ tasks });
-
+export default function ({ toggleComplete, tasks }) {
   return tasks ? (
     <View style={styles.tasksContainer}>
       {tasks.map((task) => (
-        <TaskItem key={task.id}>{task.description}</TaskItem>
+        <TaskItem key={task.id} toggleComplete={toggleComplete} task={task} />
       ))}
     </View>
   ) : (

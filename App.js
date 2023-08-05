@@ -13,10 +13,23 @@ export default function App() {
   };
 
   const handleSubmitNewTask = () => {
-    const nextTasks = [...tasks, { id: generateUUID(), description: task }];
+    const nextTasks = [
+      ...tasks,
+      { id: generateUUID(), description: task, isComplete: false },
+    ];
 
     setTasks(nextTasks);
     setTask("");
+  };
+
+  const toggleComplete = (taskId) => {
+    const nextTasks = [...tasks];
+    const oldTask = nextTasks.find((task) => task.id === taskId);
+    const oldTaskIndex = nextTasks.indexOf(oldTask);
+    const nextTask = { ...oldTask, isComplete: !oldTask.isComplete };
+    nextTasks[oldTaskIndex] = nextTask;
+
+    setTasks(nextTasks);
   };
 
   return (
@@ -38,7 +51,7 @@ export default function App() {
         />
       </View>
       <View>
-        <TaskList tasks={tasks} />
+        <TaskList tasks={tasks} toggleComplete={toggleComplete} />
       </View>
       <StatusBar style="auto" />
     </View>
