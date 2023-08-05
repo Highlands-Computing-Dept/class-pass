@@ -32,6 +32,12 @@ export default function App() {
     setTasks(nextTasks);
   };
 
+  const handleDeleteTask = (taskId) => {
+    const nextTasks = tasks.filter((task) => task.id !== taskId);
+
+    setTasks(nextTasks);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
@@ -51,7 +57,11 @@ export default function App() {
         />
       </View>
       <View>
-        <TaskList tasks={tasks} toggleComplete={toggleComplete} />
+        <TaskList
+          tasks={tasks}
+          toggleComplete={toggleComplete}
+          handleDeleteTask={handleDeleteTask}
+        />
       </View>
       <StatusBar style="auto" />
     </View>

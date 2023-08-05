@@ -1,11 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 
-export default function ({ toggleComplete, task }) {
+export default function ({ handleDeleteTask, toggleComplete, task }) {
   const { id, description, isComplete } = task;
-
-  const handleDelete = () => {
-    console.log("delete");
-  };
 
   const handleEdit = () => {
     console.log("edit");
@@ -37,7 +33,7 @@ export default function ({ toggleComplete, task }) {
             style={styles.actionIcon}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={handleDelete}>
+        <TouchableOpacity onPress={() => handleDeleteTask(id)}>
           <Image
             source={require("../assets/png/trash-can-regular.png")}
             style={styles.actionIcon}
