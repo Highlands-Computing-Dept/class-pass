@@ -1,6 +1,7 @@
-import { useState } from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import EditInput from "./EditInput";
+import { useState } from 'react';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import EditInput from './EditInput';
+import colours from '../constants/colours';
 
 export default function ({
   handleDeleteTask,
@@ -20,19 +21,27 @@ export default function ({
       <View style={styles.actionsContainer}>
         <TouchableOpacity onPress={toggleIsEditing}>
           <Image
-            source={require("../assets/png/pen-regular.png")}
+            source={
+              isEditing
+                ? require('../assets/png/edit-2-fill-green.png')
+                : require('../assets/png/edit-2-fill.png')
+            }
             style={styles.actionIcon}
           />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => toggleComplete(id)}>
           <Image
-            source={require("../assets/png/check-regular.png")}
+            source={
+              isComplete
+                ? require('../assets/png/checkbox-circle-fill-green.png')
+                : require('../assets/png/checkbox-circle-fill.png')
+            }
             style={styles.actionIcon}
           />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => handleDeleteTask(id)}>
           <Image
-            source={require("../assets/png/trash-can-regular.png")}
+            source={require('../assets/png/close-circle-fill-red.png')}
             style={styles.actionIcon}
           />
         </TouchableOpacity>
@@ -45,16 +54,18 @@ export default function ({
           setIsEditing={setIsEditing}
         />
       ) : (
-        <Text
-          style={{
-            fontSize: 24,
-            textAlign: "left",
-            textDecorationLine: isComplete ? "line-through" : "none",
-            textDecorationStyle: "solid",
-          }}
-        >
-          {description}
-        </Text>
+        <View style={styles.descriptionWrapper}>
+          <Text
+            style={{
+              fontSize: 24,
+              textAlign: 'left',
+              textDecorationLine: isComplete ? 'line-through' : 'none',
+              textDecorationStyle: 'solid',
+              color: isComplete ? colours.lightText : colours.darkText,
+            }}>
+            {description}
+          </Text>
+        </View>
       )}
     </View>
   );
@@ -62,7 +73,7 @@ export default function ({
 
 const styles = StyleSheet.create({
   actionsContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
   },
   actionIcon: {
     width: 30,
@@ -70,8 +81,15 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   container: {
-    padding: 30,
-    flexDirection: "row",
-    justifyContent: "space-between",
+    paddingVertical: 30,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderBottomColor: colours.grey,
+    borderBottomStyle: 'solid',
+    borderBottomWidth: 1,
   },
+  descriptionWrapper: {
+    padding: 10,
+  }
 });

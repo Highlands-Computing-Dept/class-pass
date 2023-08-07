@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import TaskItem from "./TaskItem";
+import colours from '../constants/colours';
 
 export default function ({
   handleEditTask,
@@ -7,7 +8,7 @@ export default function ({
   toggleComplete,
   tasks,
 }) {
-  return tasks ? (
+  return tasks.length ? (
     <View style={styles.tasksContainer}>
       {tasks.map((task) => (
         <TaskItem
@@ -22,6 +23,7 @@ export default function ({
   ) : (
     <View style={styles.getStartedContainer}>
       <Text style={styles.getStartedText}>No tasks yet!</Text>
+      <Text style={styles.getStartedText}>Please add one above...</Text>
     </View>
   );
 }
@@ -31,9 +33,11 @@ const styles = StyleSheet.create({
   getStartedContainer: {
     justifyContent: "flex-start",
     alignItems: "center",
-    padding: 10,
+    paddingVertical: 50,
   },
   getStartedText: {
     fontSize: 24,
+    color: colours.darkText,
+    marginVertical: 10,
   },
 });

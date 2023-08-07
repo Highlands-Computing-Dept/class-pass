@@ -1,13 +1,15 @@
-import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import TaskInput from "./components/TaskInput";
-import TaskList from "./components/TaskList";
-import generateUUID from "./utilities/generateUUID";
+import { useState } from 'react';
+import { Alert, View, StyleSheet } from 'react-native';
+import Constants from 'expo-constants';
+import colours from './constants/colours';
+import Header from './components/Header';
+import TaskInput from './components/TaskInput';
+import TaskList from './components/TaskList';
+import generateUUID from './utilities/generateUUID';
 
 export default function App() {
   const [tasks, setTasks] = useState([]);
-  const [task, setTask] = useState("");
+  const [task, setTask] = useState('');
 
   const handleTaskInput = (value) => {
     setTask(value);
@@ -20,7 +22,7 @@ export default function App() {
     ];
 
     setTasks(nextTasks);
-    setTask("");
+    setTask('');
   };
 
   const toggleComplete = (taskId) => {
@@ -34,9 +36,28 @@ export default function App() {
   };
 
   const handleDeleteTask = (taskId) => {
-    const nextTasks = tasks.filter((task) => task.id !== taskId);
+    const taskToDelete = tasks.find(({id}) => taskId === id);
 
-    setTasks(nextTasks);
+    Alert.alert(
+      'Delete task?',
+      `Are you sure you want to delete the task: ${taskToDelete.description}`,
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {
+          text: 'Delete', 
+          onPress: () => {
+            const nextTasks = tasks.filter((task) => task.id !== taskId);
+
+            setTasks(nextTasks);
+          },
+          style: 'destructive'
+        },
+      ]
+    )
   };
 
   const handleEditTask = (taskId, editedDescription) => {
@@ -51,23 +72,18 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.inputContainer}>
-        <Text style={{ fontSize: 24, paddingVertical: 50 }}>ClassPass</Text>
-        <TaskInput
-          task={task}
-          handleTaskInput={handleTaskInput}
-          handleSubmitNewTask={handleSubmitNewTask}
-        />
-      </View>
-      <View>
-        <TaskList
-          tasks={tasks}
-          toggleComplete={toggleComplete}
-          handleDeleteTask={handleDeleteTask}
-          handleEditTask={handleEditTask}
-        />
-      </View>
-      <StatusBar style="auto" />
+      <Header />
+      <TaskInput
+        task={task}
+        handleTaskInput={handleTaskInput}
+        handleSubmitNewTask={handleSubmitNewTask}
+      />
+      <TaskList
+        tasks={tasks}
+        toggleComplete={toggleComplete}
+        handleDeleteTask={handleDeleteTask}
+        handleEditTask={handleEditTask}
+      />
     </View>
   );
 }
@@ -75,12 +91,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffffff",
-    paddingTop: 50,
-  },
-  inputContainer: {
-    backgroundColor: "white",
-    alignItems: "center",
-    justifyContent: "center",
+    paddingTop: Constants.statusBarHeight,
+    backgroundColor: colours.background,
+    padding: 32,
   },
 });
